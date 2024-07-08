@@ -8,7 +8,7 @@ import Grid           from '@mui/material/Grid';
 
 export default function Item({ product }) {
     return (
-        <Grid item xs={ 4 } md={ 3 }>
+        <Grid item xs={ 3 } md={ 3 }>
             <Card sx={ { maxWidth: 345 } }>
                 <CardActionArea>
                     <CardMedia

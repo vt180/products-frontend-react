@@ -23,7 +23,7 @@ export default function Items() {
                 alignItems="center"
                 spacing={ 1 }
             >
-                <Grid container spacing={ 5 }>
+                <Grid container spacing={ 3 }>
                     { products.map((product) => (
                         <Item product={ product }/>
                     )) }
