@@ -14,8 +14,8 @@ interface ItemProps {
 const Item: React.FC<ItemProps> = ({ product }) => {
     return (
         <Grid item xs={ 4 } md={ 4 }>
-            <Card sx={ { maxWidth: 345 } }>
-                <CardActionArea>
+            <Card raised sx={ { maxWidth: 345, maxHeight: 260, minHeight: 260 } }>
+                <CardActionArea sx={ { maxWidth: 345, maxHeight: 260, minHeight: 260, bgcolor: '#f0f0f0' } } >
                     <CardMedia
                         component="img"
                         height="140"
@@ -23,7 +23,7 @@ const Item: React.FC<ItemProps> = ({ product }) => {
                         alt={ product.productTitle }
                     />
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
+                        <Typography gutterBottom variant="h6" component="div">
                             { product.productTitle }
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
