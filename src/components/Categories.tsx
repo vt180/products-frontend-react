@@ -2,7 +2,7 @@ import Box                                            from "@mui/material/Box";
 import { SimpleTreeView }                             from "@mui/x-tree-view/SimpleTreeView";
 import { TreeItem }                                   from "@mui/x-tree-view/TreeItem";
 import { useAppDispatch }                             from "../redux/hooks";
-import { fetchProducts, setCategory, setSubCategory } from "../redux/productsSlice";
+import { fetchProducts, setCategory, setSubCategory, setCurrentPage } from "../redux/productsSlice";
 import { ChangeEvent }                                from "react";
 
 export default function Categories() {
@@ -22,6 +22,7 @@ export default function Categories() {
             dispatch(setSubCategory(null));
             dispatch(setCategory(null));
         }
+        dispatch(setCurrentPage(1));
         dispatch(fetchProducts());
     };
 

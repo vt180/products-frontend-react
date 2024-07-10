@@ -1,11 +1,11 @@
-import { alpha, styled }                      from "@mui/material/styles";
-import AppBar                                 from "@mui/material/AppBar";
-import Toolbar                                from "@mui/material/Toolbar";
-import InputBase                              from "@mui/material/InputBase";
-import SearchIcon                             from "@mui/icons-material/Search";
-import { useAppDispatch }                     from "../redux/hooks";
-import { fetchProducts, setSearchFieldValue } from "../redux/productsSlice";
-import { useRef }                             from "react";
+import { alpha, styled }                                      from "@mui/material/styles";
+import AppBar                                                 from "@mui/material/AppBar";
+import Toolbar                                                from "@mui/material/Toolbar";
+import InputBase                                              from "@mui/material/InputBase";
+import SearchIcon                                             from "@mui/icons-material/Search";
+import { useAppDispatch }                                     from "../redux/hooks";
+import { fetchProducts, setCurrentPage, setSearchFieldValue } from "../redux/productsSlice";
+import { useRef }                                             from "react";
 
 const Search = styled("div")(({ theme }) => ({
     position:        "relative",
@@ -44,6 +44,7 @@ export default function Headerbar() {
 
     const handleSearchChanged = (searchString: string | null) => {
         dispatch(setSearchFieldValue(searchString));
+        dispatch(setCurrentPage(1));
         dispatch(fetchProducts());
     };
 
