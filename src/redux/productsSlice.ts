@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AppDispatch, RootState }        from './store';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AppDispatch, RootState }        from "./store";
 
 const PRODUCTS_PER_PAGE = 20;
 
@@ -21,23 +21,36 @@ const createAppAsyncThunk = createAsyncThunk.withTypes<{
 }>();
 
 export const fetchProducts = createAppAsyncThunk(
-    'products/fetchProducts',
-    // Adjust the thunk to use pagination parameters
+    "products/fetchProducts",
     async (_, { getState }) => {
         try {
-            const { currentPage } = getState().products.pagination;
-            const start           = Math.max(currentPage - 1, 0);
-            const response        = await fetch(
-                `http://127.0.0.1:8080/api/v1/products?page=${ start }&size=${ PRODUCTS_PER_PAGE }`);
+            const { pagination, subCategory, category, searchFieldValue } = getState().products;
+            const start                                                   = Math.max(pagination.currentPage - 1, 0);
+
+            let url = `http://127.0.0.1:8080/api/v1/products?page=${ start }&size=${ PRODUCTS_PER_PAGE }`;
+
+            if (subCategory) {
+                url += `&subCategory=${ subCategory }`;
+            }
+
+            if (category) {
+                url += `&category=${ category }`;
+            }
+
+            if (searchFieldValue) {
+                url += `&productTitle=${ searchFieldValue }`;
+            }
+
+            const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Failed to fetch products');
+                throw new Error("Failed to fetch products");
             }
             const responseJson = (await response.json()) as ApiResponse;
             const totalItems   = responseJson.page.totalElements;
             const products     = responseJson.content;
             return { products, totalItems };
         } catch (error) {
-            throw new Error('Error fetching products');
+            throw new Error("Error fetching products");
         }
     },
 );
@@ -46,6 +59,9 @@ export interface ProductsState {
     data: Product[];
     loading: boolean;
     error: string | null | undefined;
+    category: string | null | undefined;
+    subCategory: string | null | undefined;
+    searchFieldValue: string | null | undefined;
     pagination: {
         currentPage: number;
         totalPages: number;
@@ -66,10 +82,13 @@ export interface Product {
 }
 
 const initialState: ProductsState = {
-    data:       [],
-    loading:    false,
-    error:      null,
-    pagination: {
+    data:             [],
+    loading:          false,
+    error:            null,
+    category:         null,
+    subCategory:      null,
+    searchFieldValue: null,
+    pagination:       {
         currentPage: 1,
         totalPages:  1,
         totalItems:  0,
@@ -78,11 +97,20 @@ const initialState: ProductsState = {
 
 
 const productsSlice = createSlice({
-    name:          'products',
+    name:          "products",
     initialState,
     reducers:      {
-        setCurrentPage: (state, action) => {
+        setCurrentPage:      (state, action) => {
             state.pagination.currentPage = action.payload;
+        },
+        setCategory:         (state, action) => {
+            state.category = action.payload;
+        },
+        setSubCategory:      (state, action) => {
+            state.subCategory = action.payload;
+        },
+        setSearchFieldValue: (state, action) => {
+            state.searchFieldValue = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -105,6 +133,6 @@ const productsSlice = createSlice({
     },
 });
 
-export const { setCurrentPage } = productsSlice.actions;
+export const { setCurrentPage, setCategory, setSubCategory, setSearchFieldValue } = productsSlice.actions;
 
 export default productsSlice.reducer;
