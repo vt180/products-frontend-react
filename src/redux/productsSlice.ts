@@ -12,7 +12,33 @@ interface ApiResponse {
         totalPages: number;
     };
 
-}
+};
+
+export interface ProductsState {
+    data: Product[];
+    loading: boolean;
+    error: string | null | undefined;
+    category: string | null | undefined;
+    subCategory: string | null | undefined;
+    searchFieldValue: string | null | undefined;
+    pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalItems: number;
+    };
+};
+
+export interface Product {
+    category: string;
+    colour: string;
+    gender: string;
+    imageURL: string;
+    productId: string;
+    productTitle: string;
+    productType: string;
+    subCategory: string;
+    usage: string;
+};
 
 const createAppAsyncThunk = createAsyncThunk.withTypes<{
     state: RootState
@@ -54,32 +80,6 @@ export const fetchProducts = createAppAsyncThunk(
         }
     },
 );
-
-export interface ProductsState {
-    data: Product[];
-    loading: boolean;
-    error: string | null | undefined;
-    category: string | null | undefined;
-    subCategory: string | null | undefined;
-    searchFieldValue: string | null | undefined;
-    pagination: {
-        currentPage: number;
-        totalPages: number;
-        totalItems: number;
-    };
-};
-
-export interface Product {
-    category: string;
-    colour: string;
-    gender: string;
-    imageURL: string;
-    productId: string;
-    productTitle: string;
-    productType: string;
-    subCategory: string;
-    usage: string;
-}
 
 const initialState: ProductsState = {
     data:             [],
