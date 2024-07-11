@@ -30,7 +30,7 @@ export default function Categories() {
         <Box sx={ { minHeight: 352, minWidth: 230 } }>
             <SimpleTreeView onSelectedItemsChange={ handleSelectedItemsChange }>
                 <TreeItem itemId="Footwear" label="Footwear">
-                    <TreeItem itemId="sub/Shoes" label="Casual Shoes"/>
+                    <TreeItem itemId="sub/Shoes" label="Shoes"/>
                     <TreeItem itemId="sub/Flip Flops" label="Flip Flops"/>
                     <TreeItem itemId="sub/Sandal" label="Sandals"/>
                 </TreeItem>
